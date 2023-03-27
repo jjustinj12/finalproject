@@ -1,0 +1,36 @@
+---
+title: "Annotated Bibliography"
+author: "Justin Joseph"
+date: "2023-03-15"
+output:
+  pdf_document:
+    toc: no
+  bookdown::pdf_document2:
+    fig_caption: yes
+    toc: no
+header-includes: \usepackage{booktabs}
+---
+
+Sommers, B. D., Baicker, K., & Epstein, A. M. (2012). Mortality and Access to Care among Adults after State Medicaid Expansions. New England Journal of Medicine, 367(11), 1025-1034. https://doi.org/10.1056/nejmsa1202099 
+This article highlights the effect of medicaid expansion on health by looking at mortality through a natural experiment of states expanding medicaid. It saw that expansion helped decrease mortality by 6.1% and had even more significant effects on older, non-white, and low income individuals. Additionally, this study showed increases in insurance coverage of 24.7%, decrease in uninsured by 14.7%, decreases in rate of delayed care because of cost by 21.3% and increase in perceived health by 3.4%. One drawback is this study looks at data between 1997 and 2007 for when this natural experiment took place which can be a little outdated, but studies that are longitudinal like this may be older than a cross-sectional study. 
+
+McWilliams, J. M., Meara, E., Zaslavsky, A. M., & Ayanian, J. Z. (2007). Use of Health Services by Previously Uninsured Medicare Beneficiaries. New England Journal of Medicine, 357(2), 143-153. https://doi.org/10.1056/nejmsa067712 
+This article highlights the effect insurance among participants who were either insured or non insured then on medicare. Those previously uninsured and then acquiring medicare had greater increases in doctor visits, hospitalization and total expenditures compared to those who were insured then getting on medicare. Thus having insurance can help decrease costs later in life and thus can make the argument for the rationale of insurance expansion. 
+Baicker, K., Taubman, S. L., Allen, H. L., Bernstein, M., Gruber, J. H., Newhouse, J. P., Schneider, E. C., Wright, B. J., Zaslavsky, A. M., & Finkelstein, A. N. (2013). The Oregon Experiment — Effects of Medicaid on Clinical Outcomes. New England Journal of Medicine, 368(18), 1713-1722. https://doi.org/10.1056/nejmsa1212321 
+This article highlights the well-known Oregon experiment of medicaid expansion. This will serve as a good contrary article to the effect that not all insurance expansion increases health outcomes. This study showed greater health care utilization with no significant improvements in health outcomes. 
+Oney, M. (2018). The effect of health insurance on sexual health: Evidence from the Affordable Care Act's dependent coverage mandate. Social Science & Medicine, 202, 20-27. https://doi.org/https://doi.org/10.1016/j.socscimed.2018.02.021 
+This article looks at the effect of expansion on sexual health with regard to young people based on the ACA’s dependent coverage mandate. It was seen that chlamydia and gonorrhea rates actually increased as insurance for young adults were preserved and thus can show a potential for moral hazard with regard to risky sexual behavior following ACA expanding access to insurance. Another article to show another view point to the effect of insurance expansion. 
+
+Simon, K., Soni, A., & Cawley, J. (2017). The Impact of Health Insurance on Preventive Care and Health Behaviors: Evidence from the First Two Years of the ACA Medicaid Expansions. J Policy Anal Manage, 36(2), 390-417. https://doi.org/10.1002/pam.21972 
+This article looks at improvements of health with regard to preventive care using the same data set I will use from the BRFSS. This article showed that there was a small increase in self-assessment while there was no evidence of moral hazard in terms of an increase of risky behavior by expansion. In addition, expansion increases use of preventive care. There was a 2.3% increase in receiving an HIV test. 
+Zhang, C., Fu, C., Song, Y., Feng, R., Wu, X., & Li, Y. (2020). Utilization of public health care by people with private health insurance: a systematic review and meta-analysis. BMC Public Health, 20(1), 1153. https://doi.org/10.1186/s12889-020-08861-9 
+This is a more up-to-date article published in 2020 looking at the difference in utilization of health care between insured and uninsured individuals using a systematic review study design. It was shown that people with private insurance did not use more public health insurance in comparison to uninsured and individuals with private insurance were more likely to be hospitalized compared to uninsured.
+Courtemanche, C., Marton, J., Ukert, B., Yelowitz, A., & Zapata, D. (2018). Effects of the Affordable Care Act on Health Care Access and Self-Assessed Health After 3 Years. INQUIRY: The Journal of Health Care Organization, Provision, and Financing, 55, 004695801879636. https://doi.org/10.1177/0046958018796361 
+This article highlights the impact of the ACA which showed increased access to care, greater rates of insured participants as well as increased self assessments reported quality of health for patients. In terms of access to care, they saw a 3.4% increase in patients having a primary care doctor and a 5.6% decrease in cost being a barrier to accessing care. 
+Garfield, R., Orgera, K., & Damico, A. (2019, Jan 25, 2019). The Uninsured and the ACA: A Primer - Key Facts about Health Insurance and the Uninsured amidst Changes to the Affordable Care Act. KFF. https://www.kff.org/report-section/the-uninsured-and-the-aca-a-primer-key-facts-about-health-insurance-and-the-uninsured-amidst-changes-to-the-affordable-care-act-how-does-lack-of-insurance-affect-access-to-care/
+This is a KFF article which comes from a non-profit and is a world leader in health policy work and a reputable source. Main points from this article show that individuals who are uninsured are more likely to go without preventive services, postpone care due to cost, or go without care when needed. This lack of access to care can lead to risks of being diagnosed at later stages such as in cancer or less likely to obtain necessary follow up care. Uninsured have a higher risk of preventable hospitalization and illness. 
+
+Policy Overview: 
+The research question for my final project explores whether expanding health insurance leads to positive health outcomes. This is an important question because it has implication for the health and well being of our community but also the overal health of the economy. One one hand, some argue expansion could lead to increased moral hazard and individuals will incur increased health expenditures, without actual improvements in overall health. However, on the other hand, others suggest expansion increases access to care, increase preventive care and thus better outcomes and decrease costs long term. We will look at medicaid expansion to assess wheter or not access translates to better health. 
+
+Note: Endnote libary can be given if you can not access any source 
