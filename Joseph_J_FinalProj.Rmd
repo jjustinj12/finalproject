@@ -1,0 +1,101 @@
+---
+title: "Joseph-J-Final_Project"
+author: "Justin Joseph"
+date: "2023-04-23"
+output:
+  pdf_document:
+    toc: no
+  bookdown::pdf_document2:
+    fig_caption: yes
+    toc: no
+  html_document:
+    toc: no
+    df_print: paged
+header-includes: \usepackage{booktabs}
+---
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, ggplot2, dplyr, lubridate, stringr, readxl, data.table, gdata)
+library(tidyverse)
+library(scales)
+library(knitr)
+library(rdrobust)
+library(modelsummary)
+library(AER)
+library(fixest)
+library(acs)
+library("kableExtra")
+```
+
+```{r, include=FALSE}
+load("final_proj_data2.Rdata")
+```
+
+### Motivation 
+Health care is a service we all need and use from primary care visits to emergency care. It is one of the largest segments of the economy. In fact, coverage plays a role in one's decision for employment and is equated in an individual's personal budgets. Thus Medicaid expansion does not only affect health outcomes but economic outcomes. In addition, there is no uniform decision behind medicaid expansion where some states seek to expand while others refuse to expand and others wait and see. This is not only fragmentation in terms of policy execution but coverage for US citizens. The association between coverage and quality of care is one of important relevance because increasing access to care can provide needed improvements to quality of living and one’s health both in prevention and in acute care. For example Medicaid expansion can help decrease mortality by 6% (Sommers et al. 2012), increase in preventive care such as receiving an HIV Test (simon et al. 2017), increase in seeing a primary care by 3.4% ( Courtemanche et al. 2018), as well as decreasing the barriers of seeking care. However, this question is important to investigate because there is a contradictory as well as gap in understanding of the true effects of insurance expansion on health benefits. For example, the Oregon experiment showed that greater health utilization due to coverage has no significant improvements in health outcomes (Baicker et al. 2013) or even increase in STD rates due to moral hazard (Oney 2018).  As a result, due to this variability in the literature I sought to seek out what effect does medicaid expansion have on outcomes. 
+
+### Data 
+The data used to address this question is Insurance Data extracted from the US Census, Medicaid expansion retrieved from the work of Kaiser Family Foundation and lastly The Behavioral Risk Factor Surveillance System which tracks quality of health across the nation through surveys. First to determine insurance coverage in the US, using the Census data is the best way to sample the population due to its generalizability. In addition the KFF data allows one to simply see which states have expanded and which states have not expanded as well as specificity in terms of expansion year. Then we can put the KFF data merged with insurance data to have data set that outlines whether a state has expanded and then asses uninsurance rates. Additionally, we can see which states have expanded and which ones have not yet and then filter quality outcomes using BRFSS data. So we can attach to our data set the overall quality of health, depression, as well as the last check up to quantitatively assess the effect of not only the effect on uninsured but also the effect on health outcomes. 
+
+
+\newpage
+### Analysis: 
+```{r, fig.cap="Average Proportion of Uninsured between expanded and not expanded states from 2012-2019", warning=FALSE, echo=FALSE}
+figure_1
+```
+This first figure highlights the difference in the proportion of uninsured between states that expanded and states that did not expand. The rational for this figure is it allows me to first understand what effect does expansion have on coverage of individuals because the main research question is expanding coverage effect health outcomes and in order to assess this we need to see there is a clear difference in coverage between expansion and non expansion to further associated expansion policy can have an effect outcomes as well. 
+
+\newpage
+```{r, fig.cap="Percent of people with poor/fair health for Expanded and Not Expanded States", warning=FALSE, echo=FALSE}
+figure2
+```
+This next figure assess the impact of expansion on proportion of individuals with poor health. I believed this was an important graph to help assess descriptively if expansion played a role subjective health care measures. This graph clearly shows that there is a much lower proportion of health outcomes for states that expanded than not expanded. 
+\newpage
+
+```{r, fig.cap="Percent of people with depression in Expanded and Not Expanded States", warning=FALSE, echo=FALSE}
+figure3
+```
+This next figure assess the impact of expansion on proportion of individuals with poor depression. First, I wanted too look at mental health as one of the instruments to understand improvements of quality of health. Mental health treatment is very much correlated with access through coverage thus by understanding the effect of expansion has on rates of depression we can better see the effect of expansion on health with the lens of mental health.
+
+\newpage
+```{r, fig.cap="Percent of people with checkup wihtin the last year", warning=FALSE, echo=FALSE}
+figure4
+```
+
+This figure  assess the impact of expansion on proportion of individuals who went to have a check up within the last year. The rational for this figure is that expansion of coverage is tied with access and having the ability to attend preventive care such as a check up is one way i have chosen to operationalize improvements in health outcomes. 
+\newpage
+
+```{r, fig.cap="Proportion of people who are uninusred stratified between expansion states and non-expansion states before and after 2014 ACA expansion policy", warning=FALSE, echo=FALSE}
+kable(prop_unisured, digits = 2, caption = "Proportion of Uninusred before 2014 and after 2014 for states that were expanded and not expanded", col.names = c("Group", "2012 (Pre)", "2015 (Post)"), booktabs = TRUE) %>% 
+        kable_styling(latex_options=c("hold_position"), full_width = TRUE, position="center")
+
+```
+The rational for the inclusion of this table is it allows us to clearly see the effect of uninsured between states that expanded and did not expand at baseline before 2014 or post after 2014. This allows us to have the descriptive statistic in which we will run a difference and difference regression to understand the real impact on expansion on the proportion of uninsured.
+\newpage
+
+
+```{r, warning=FALSE, echo=FALSE}
+modelsummary(fe.est,
+             title = "The effect of Medicaid expansion on the uninsurance rate using Fixed Effects Estimator ",
+             gof_map=list(list("raw"="nobs","clean"="N", "fmt"=0),
+                          list("raw"="r.squared", "clean"="R\\textsuperscript{2}", "fmt"=2))) %>% kable_styling(latex_options=c("hold_position"), full_width = TRUE, position="center")
+```
+This table is shows the first regression used to understand the impact of expansion states have on the population. To first understand the effect expansion has we can see the coefficient of being after 2014 as well as being part of the treatment group (expansion states) has a 0.018 decrease in the proportion of uninsured compared to expanded states and non expanded states after the treatment time which is 2014. 
+\newpage
+
+
+
+```{r, warning=FALSE, echo=FALSE}
+modelsummary(list("Health"=fe.est2, "Depression"=fe.est3),
+             title = "The effect of Medicaid expansion on quality of health using Fixed Effects Estimator ",
+             gof_map=list(list("raw"="nobs","clean"="N", "fmt"=0),
+                          list("raw"="r.squared", "clean"="R\\textsuperscript{2}", "fmt"=2))) %>% kable_styling(latex_options=c("hold_position"), full_width = TRUE, position="center")
+```
+\newpage
+
+```{r, warning=FALSE, echo=FALSE, fig.align="center", fig.cap="Event Study for 2014 Treatment Group"}
+iplot(plot_data, 
+                  xlab='Time to treatment',
+                  main='Event Study')
+
+```  

@@ -39,22 +39,26 @@ figure_1 <- final.data %>%
 figure_1
 
 
+### PLAY AROUND WITH THIS 
+DrM<-final.data%>%
+filter(expand_year==2014 | is.na(expand_year))
+
 
 #importing data set
 
 colnames(brfss.data)
-view(brfss.data)
+
 
 #cleaning data set
 brfss.data.final <- brfss.data %>%
   rename(State = Locationdesc) %>%
-  select(Year, State, Class, Topic, Question, Response, Sample_Size, Data_value) %>%
-  filter(Topic %in% c("Overall Health", "Depression", "Last Checkup", "Diabetes", "HIV Test", "Health Care Coverage"))%>%
+  select(Year, State, Class, Topic, Question, Response, Sample_Size, Data_value, Break_Out, Break_Out_Category) %>%
+  filter(Topic %in% c("Overall Health", "Depression", "Last Checkup", "Diabetes", "HIV Test", "Health Care Coverage","Fair or Poor Health"))%>%
   filter(Year>=2012 & Year<=2019)
 count(brfss.data.final)
 
 brfss_expanded<-brfss.data.final %>%
-  filter(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", "District of Columbia", 
+  filter(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", 
                  "Connecticut", "Hawaii", "Illinois", "Iowa", "Kentucky", "Maryland", "Massachusetts", 
                  "Michigan", "Minnesota", "Nevada", "New Hampshire", "New Jersey", "New Mexico", 
                  "New York", "North Dakota", "Ohio", "Oregon", "Rhode Island", "Vermont", "Washington", "West Virginia"))
@@ -70,11 +74,9 @@ brfss_not_expanded<-brfss.data.final %>%
 health_expanded <- brfss_expanded %>%
   group_by(Year) %>%
   filter(Topic=="Overall Health")%>%
-  filter(Sample_Size>=30 & Sample_Size<=600)%>%
   summarise(poorhealth_prop = sum(Response %in% c("Poor"), na.rm = TRUE) / n())
   
-health_expanded  
-  
+head(brfss_not_expanded)  
 ggplot(data=health_expanded, aes(x=as.factor(Year), y=poorhealth_prop))+ 
   geom_bar(stat="identity") + labs(
     x= "Year",
@@ -83,11 +85,12 @@ ggplot(data=health_expanded, aes(x=as.factor(Year), y=poorhealth_prop))+
   ) + scale_y_continuous(labels=comma) +
   theme_bw()
 
+view(brfss.data %>% filter(Topic=="Fair or Poor Health" & Locationdesc=="California" & Year==2016 & Break_Out_Category=="Overall"))
+
 
 health_not_expanded<-brfss_not_expanded%>%
   group_by(Year)%>%
   filter(Topic=="Overall Health")%>%
-  filter(Sample_Size>=30 & Sample_Size<=600)%>%
   summarise(poorhealth_prop = sum(Response %in% c("Poor"), na.rm = TRUE) / n())
 health_not_expanded
 ggplot(data=health_not_expanded, aes(x=as.factor(Year), y=poorhealth_prop))+ 
@@ -159,7 +162,7 @@ figure4
 
 #Time to show some Differences 
 expanded_1<-final.data%>%
-  filter(year==2012)%>%
+  filter(year<2014)%>%
   filter(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", 
                       "District of Columbia", "Connecticut", "Hawaii", "Illinois", "Iowa", "Kentucky", 
                       "Maryland", "Massachusetts", "Michigan", "Minnesota", "Nevada", 
@@ -169,7 +172,7 @@ expanded_1<-final.data%>%
   summarize(avg_prop_uninsured_1 = mean(uninsured / adult_pop, na.rm = TRUE))
 expanded_1
 not_expanded_1<-final.data%>%
-  filter(year==2012)%>%
+  filter(year<2014)%>%
   filter(State %in% c("Alabama", "Florida", "Georgia", "Kansas", "Mississippi", 
                       "North Carolina", "South Carolina", "South Dakota", "Tennessee",
                       "Texas", "Wisconsin", "Wyoming"))%>%
@@ -177,7 +180,7 @@ not_expanded_1<-final.data%>%
 not_expanded_1
 
 expanded_2<-final.data%>%
-  filter(year==2015)%>%
+  filter(year>=2014)%>%
   filter(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", 
                       "District of Columbia", "Connecticut", "Hawaii", "Illinois", "Iowa", "Kentucky", 
                       "Maryland", "Massachusetts", "Michigan", "Minnesota", "Nevada", 
@@ -187,7 +190,7 @@ expanded_2<-final.data%>%
   summarize(avg_prop_uninsured_2 = mean(uninsured / adult_pop, na.rm = TRUE))
 expanded_2
 not_expanded_2<-final.data%>%
-  filter(year==2015)%>%
+  filter(year>=2014)%>%
   filter(State %in% c("Alabama", "Florida", "Georgia", "Kansas", "Mississippi", 
                       "North Carolina", "South Carolina", "South Dakota", "Tennessee",
                       "Texas", "Wisconsin", "Wyoming"))%>%
@@ -210,7 +213,6 @@ kable(table_data, digits = 2, caption = "Proportion of Uninusred before 2014 and
 
 
 regression<-final.data%>%
-  filter(year==2012 | year==2015)%>%
   filter(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", 
                      "District of Columbia", "Connecticut", "Hawaii", "Illinois", "Iowa", "Kentucky", 
                      "Maryland", "Massachusetts", "Michigan", "Minnesota", "Nevada", 
@@ -220,27 +222,21 @@ regression<-final.data%>%
                      "Alabama", "Florida", "Georgia", "Kansas", "Mississippi", 
                      "North Carolina", "South Carolina", "South Dakota", "Tennessee",
                      "Texas", "Wisconsin", "Wyoming"))%>%
-  mutate(treatment=ifelse(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", 
+  mutate(group=ifelse(State %in% c("Arizona", "Arkansas", "California", "Colorado", "Delaware", 
                       "District of Columbia", "Connecticut", "Hawaii", "Illinois", "Iowa", "Kentucky", 
                       "Maryland", "Massachusetts", "Michigan", "Minnesota", "Nevada", 
                       "New Hampshire", "New Jersey", "New Mexico","New York", "North Dakota", 
                       "Ohio", "Oregon", "Rhode Island", "Vermont", "Washington", "West Virginia"), 
-         "Treatment", "Control"))%>%
-    mutate(time=ifelse(year == 2012, "Pre", "Post"))
+                      "Treatment", "Control"))%>%
+  mutate(post=year>=2014) %>%
+  mutate(prop_uninsured=uninsured/adult_pop)
 
-model <- lm(uninsured ~ treatment * year, data = regression)
-head(regression)
-
-install.packages("causaldata")
-library(causaldata)
-reg.dat <- causaldata::gapminder %>%
-  mutate(lgdp_pc=log(gdpPercap)) %>%
-  group_by(country) %>%
-  mutate(demean_lifeexp=lifeExp - mean(lifeExp, na.rm=TRUE),
-         demean_gdp=lgdp_pc - mean(lgdp_pc, na.rm=TRUE))
-lm(demean_lifeexp~ 0 + demean_gdp, data=reg.dat)
+dd.ins.reg <- lm(prop_uninsured ~post+group+post*group, data=regression)
+summary(dd.ins.reg)
 
 
-rm(list=c("full.ma.data", "contract.service.area", "ma.pentration.data", 
-          "plan.premiums", "final.plans", "final.data", "fig.avg.enrollment"))
-save.image("Hwk1_workspace.Rdata")
+
+rm(list=c("brfss.data", "brfss.data.final"))
+save.image("final_proj_data.Rdata")
+
+head(brfss.data.final)

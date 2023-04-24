@@ -24,4 +24,4 @@ final.data <- final.insurance %>%
 
 
 write_tsv(final.data,'data/output/acs_medicaid.txt')
-view(final.data)
+
