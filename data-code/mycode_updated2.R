@@ -261,4 +261,4 @@ event.plot<-iplot(plot_data,
 view(brfss.data %>% filter(Topic=="Last Checkup" & Locationdesc=="California" & Year==2016 & Break_Out=="Overall" ))
 
 
-save.image("final_proj_data2.Rdata")
+save.image("final_proj_data_2.Rdata")

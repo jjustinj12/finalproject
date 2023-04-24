@@ -28,7 +28,7 @@ library("kableExtra")
 ```
 
 ```{r, include=FALSE}
-load("final_proj_data2.Rdata")
+load("final_proj_data_2.Rdata")
 ```
 
 ### Motivation 
@@ -40,29 +40,33 @@ The data used to address this question is Insurance Data extracted from the US C
 
 \newpage
 ### Analysis: 
-```{r, fig.cap="Average Proportion of Uninsured between expanded and not expanded states from 2012-2019", warning=FALSE, echo=FALSE}
+
+```{r figure_1, echo=FALSE, warning=FALSE, fig.cap="Average Percent of Uninsured between expanded and non expanded states from 2012-2019"}
 figure_1
 ```
+
 This first figure highlights the difference in the proportion of uninsured between states that expanded and states that did not expand. The rational for this figure is it allows me to first understand what effect does expansion have on coverage of individuals because the main research question is expanding coverage effect health outcomes and in order to assess this we need to see there is a clear difference in coverage between expansion and non expansion to further associated expansion policy can have an effect outcomes as well. 
 
 \newpage
-```{r, fig.cap="Percent of people with poor/fair health for Expanded and Not Expanded States", warning=FALSE, echo=FALSE}
+```{r figure2, fig.cap="Percent of people with poor/fair health for expanded and non expanded states from 2012-2019", warning=FALSE, echo=FALSE}
 figure2
 ```
-This next figure assess the impact of expansion on proportion of individuals with poor health. I believed this was an important graph to help assess descriptively if expansion played a role subjective health care measures. This graph clearly shows that there is a much lower proportion of health outcomes for states that expanded than not expanded. 
+
+This next figure assess the impact of expansion on proportion of individuals with poor or fair health. I believed this was an important graph to help assess descriptively if expansion played a role subjective health care measures. This graph clearly shows that there is a much lower proportion of health outcomes for states that expanded than not expanded. Additionally we see that the percentage of indivduals reporting poor health has also increased over time as well across both expanded and not expanded states. 
 \newpage
 
-```{r, fig.cap="Percent of people with depression in Expanded and Not Expanded States", warning=FALSE, echo=FALSE}
+```{r figure3, fig.cap="Percent of people with depression in Expanded and Not Expanded States", warning=FALSE, echo=FALSE}
 figure3
 ```
-This next figure assess the impact of expansion on proportion of individuals with poor depression. First, I wanted too look at mental health as one of the instruments to understand improvements of quality of health. Mental health treatment is very much correlated with access through coverage thus by understanding the effect of expansion has on rates of depression we can better see the effect of expansion on health with the lens of mental health.
+
+This next figure assess the impact of expansion on proportion of individuals with  depression. First, I wanted too look at mental health as one of the instruments to understand improvements of quality of health. Mental health treatment is very much correlated with access through coverage thus by understanding the effect of expansion has on rates of depression we can better see the effect of expansion on health with the lens of mental health. Here we see that trends are similar between expansion states and non expansion states.
 
 \newpage
-```{r, fig.cap="Percent of people with checkup wihtin the last year", warning=FALSE, echo=FALSE}
+```{r figure4, fig.cap="Percent of people with checkup within the last year among expanded and not expanded states between 2012-2019", warning=FALSE, echo=FALSE}
 figure4
 ```
 
-This figure  assess the impact of expansion on proportion of individuals who went to have a check up within the last year. The rational for this figure is that expansion of coverage is tied with access and having the ability to attend preventive care such as a check up is one way i have chosen to operationalize improvements in health outcomes. 
+This figure  assess the impact of expansion on percent of individuals who went to have a check up within the last year. The rational for this figure is that expansion of coverage is tied with access and having the ability to attend preventive care such as a check up is one way i have chosen to operationalize improvements in health outcomes. In addition, it is interesting to show a sharp increase in percentage of individuals in the year 2017 and worth further inquiry.  
 \newpage
 
 ```{r, fig.cap="Proportion of people who are uninusred stratified between expansion states and non-expansion states before and after 2014 ACA expansion policy", warning=FALSE, echo=FALSE}
@@ -80,7 +84,7 @@ modelsummary(fe.est,
              gof_map=list(list("raw"="nobs","clean"="N", "fmt"=0),
                           list("raw"="r.squared", "clean"="R\\textsuperscript{2}", "fmt"=2))) %>% kable_styling(latex_options=c("hold_position"), full_width = TRUE, position="center")
 ```
-This table is shows the first regression used to understand the impact of expansion states have on the population. To first understand the effect expansion has we can see the coefficient of being after 2014 as well as being part of the treatment group (expansion states) has a 0.018 decrease in the proportion of uninsured compared to expanded states and non expanded states after the treatment time which is 2014. 
+This table is shows the first regression used to understand the impact of expansion states have on the population. To first understand the effect expansion has we can see the coefficient of being after 2014 as well as being part of the treatment group (expansion states) has a 0.017 decrease in the proportion of uninsured compared to expanded states and non expanded states after the treatment time which is 2014. Thus by expanding there is a decrease in uninsured
 \newpage
 
 
@@ -91,11 +95,13 @@ modelsummary(list("Health"=fe.est2, "Depression"=fe.est3),
              gof_map=list(list("raw"="nobs","clean"="N", "fmt"=0),
                           list("raw"="r.squared", "clean"="R\\textsuperscript{2}", "fmt"=2))) %>% kable_styling(latex_options=c("hold_position"), full_width = TRUE, position="center")
 ```
+This difference in Difference tables highlights the impact of expansion on quality of health through both looking at the effect of self report poor/health (health) and self report depression. We see for states that expanded quality of health actually decreased because there is a positive 0.010 increase in individuals who subjectively have poor/fair health. Furthermore, depression actually improved for states that expanded because there is a negative -0.187 in invididuales who reported depression. 
 \newpage
 
 ```{r, warning=FALSE, echo=FALSE, fig.align="center", fig.cap="Event Study for 2014 Treatment Group"}
 iplot(plot_data, 
                   xlab='Time to treatment',
-                  main='Event Study')
+                  main='')
 
 ```  
+This is an event study looking at the effect on health specifically the number of individuals who report poor/fair health between the treatment group and control group. 
